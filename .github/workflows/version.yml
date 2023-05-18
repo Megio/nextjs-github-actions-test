@@ -33,9 +33,18 @@ jobs:
         id: create_commit
         run: |
           git checkout -b release/$(npm version ${{ github.event.inputs.version }})
-          echo "version=v$(npm pkg get version)" >> $GITHUB_OUTPUT
+          echo "version=v$(npm pkg get version) | sed 's/"//g'" >> $GITHUB_OUTPUT
           git add ./package.json
           git log --oneline
       - name: Push the new branch
         run: |
           git push -u origin release/${{ steps.create_commit.outputs.version }}
+      - name: Create pull request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release/${{ steps.create_commit.outputs.version }}
+          title: "Release ${{ steps.create_commit.outputs.version }} Pull Request"
+          body: "This pull request contains the updated package.json with the new release version"
+          base: main
