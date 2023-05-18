@@ -37,12 +37,3 @@ jobs:
           git add ./package.json
           git log --oneline
           git push -u origin release/v$(npm pkg get version) | sed 's/"//g'
-      - name: Create pull request
-        id: create_pr
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release/${{ steps.create_commit.outputs.version }}
-          title: "Release ${{ steps.create_commit.outputs.version }} Pull Request"
-          body: "This pull request contains the updated package.json with the new release version"
-          base: main
