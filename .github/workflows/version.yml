@@ -34,7 +34,7 @@ jobs:
       - name: Get next version
         id: next_version
         run: |
-          echo "::set-output name=tag::$(npm version ${{ github.event.inputs.version }})"
+          echo "::set-output version=$(npm version ${{ github.event.inputs.version }})"
       - name: Tag the commit
         run: |
           git checkout -b release/${{ steps.next_version.outputs.version }}
