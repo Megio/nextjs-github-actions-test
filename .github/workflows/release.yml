@@ -24,7 +24,7 @@ jobs:
       - name: Get tag
         id: get_tag
         run: |
-          echo "version=v$(npm pkg get version)" >> $GITHUB_OUTPUT
+          echo "version=$(npm pkg get version)" >> $GITHUB_OUTPUT
       - name: Tag the commit
         run: |
           next_version=${{ steps.determine_version.outputs.version }}
