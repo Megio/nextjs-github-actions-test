@@ -49,12 +49,3 @@ jobs:
             Add release notes here.
           draft: false
           prerelease: false
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/app.zip
-          asset_name: app.zip
-          asset_content_type: application/zip
