@@ -20,40 +20,38 @@ jobs:
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16.x"
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Set up Git
-        run: |
-          git config user.name "Mattia Magi"
-          git config user.email "mattia.magi91@gmail.com"
-      - name: Get tag
-        id: get_tag
-        run: |
-          git fetch
-          git pull
-          echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
-      - name: Tag the commit
-        run: |
-          next_version=${{ steps.get_tag.outputs.version }}
-          git tag -a "$next_version" -m "Version $next_version"
-          git push --follow-tags
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.get_tag.outputs.version }}
-          release_name: Release ${{ steps.get_tag.outputs.version }}
-          body: |
-            Release ${{ steps.get_tag.outputs.version }}
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: "16.x"
+      # - name: Install dependencies
+      #   run: npm install
+      # - name: Build
+      #   run: npm run build
+      # - name: Set up Git
+      #   run: |
+      #     git config user.name "Mattia Magi"
+      #     git config user.email "mattia.magi91@gmail.com"
+      # - name: Get tag
+      #   id: get_tag
+      #   run: |
+      #     echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
+      # - name: Tag the commit
+      #   run: |
+      #     next_version=${{ steps.get_tag.outputs.version }}
+      #     git tag -a "$next_version" -m "Version $next_version"
+      #     git push --follow-tags
+      # - name: Create release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.get_tag.outputs.version }}
+      #     release_name: Release ${{ steps.get_tag.outputs.version }}
+      #     body: |
+      #       Release ${{ steps.get_tag.outputs.version }}
 
-            Add release notes here.
-          draft: false
-          prerelease: false
+      #       Add release notes here.
+      #     draft: false
+      #     prerelease: false
