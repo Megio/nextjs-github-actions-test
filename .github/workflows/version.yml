@@ -38,7 +38,8 @@ jobs:
       - name: Tag the commit
         run: |
           git checkout -b release/${{ steps.next_version.outputs.version }}
-          git add package.json
+          git add ./package.json
+          git status
           git commit -m "release ${{ steps.next_version.outputs.version }}"
           git push -u origin release/${{ steps.next_version.outputs.version }}
       - name: Create pull request
