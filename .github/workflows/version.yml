@@ -32,11 +32,7 @@ jobs:
       - name: Create a commit with new version
         id: create_commit
         run: |
-          git checkout -b release/$(npm version ${{ github.event.inputs.version }})
-          echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
-      - name: Push the new branch
-        run: |
-          git push --set-upstream origin release/${{ steps.create_commit.outputs.version }}
+          echo "version=$(npm version ${{ github.event.inputs.version }})" >> $GITHUB_OUTPUT
       - name: Create pull request
         id: create_pr
         uses: peter-evans/create-pull-request@v5
