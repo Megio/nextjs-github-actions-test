@@ -38,6 +38,8 @@ jobs:
       - name: Get tag
         id: get_tag
         run: |
+          git fetch
+          git pull
           echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
       - name: Tag the commit
         run: |
