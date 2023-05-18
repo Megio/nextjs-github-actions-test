@@ -36,3 +36,9 @@ jobs:
       - name: Create pull request
         id: create_pr
         uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release/v$(npm pkg get version | tr -d '\"')
+          title: "Release $(npm pkg get version | tr -d '\"') Pull Request"
+          body: "This pull request contains the updated package.json with the new release version"
+          base: main
