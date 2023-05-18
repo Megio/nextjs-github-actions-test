@@ -24,8 +24,8 @@ jobs:
         run: npm run build
       - name: Set up Git
         run: |
-          git config user.name "Your Name"
-          git config user.email "your@email.com"
+          git config user.name "Mattia Magi"
+          git config user.email "mattia.magi91@gmail.com"
       - name: Determine the version
         id: determine_version
         run: |
