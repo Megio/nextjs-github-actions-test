@@ -33,10 +33,10 @@ jobs:
         id: create_commit
         run: |
           git checkout -b release/$(npm version ${{ github.event.inputs.version }})
-          echo "version=$(npm version ${{ github.event.inputs.version }})" >> $GITHUB_OUTPUT
+          echo "version=v$(npm pkg get version)" >> $GITHUB_OUTPUT
           git add ./package.json
           git log --oneline
-          git push -u origin release/$(npm version ${{ github.event.inputs.version }})
+          git push -u origin release/v$(npm pkg get version)
       - name: Create pull request
         id: create_pr
         uses: peter-evans/create-pull-request@v5
