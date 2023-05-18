@@ -41,7 +41,7 @@ jobs:
           git checkout -b release/${{ steps.next_version.outputs.version }}
           git add ./package.json
           git status
-          git commit -m "release ${{ steps.next_version.outputs.version }}"
+          git log --oneline
           git push -u origin release/${{ steps.next_version.outputs.version }}
       - name: Create pull request
         id: create_pr
