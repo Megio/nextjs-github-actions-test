@@ -36,7 +36,7 @@ jobs:
           echo "version=v$(npm pkg get version)" >> $GITHUB_OUTPUT
           git add ./package.json
           git log --oneline
-          git push -u origin release/v{{ $(npm pkg get version) }}
+          git push -u origin release/v${{(npm pkg get version)}}
       - name: Create pull request
         id: create_pr
         uses: peter-evans/create-pull-request@v5
