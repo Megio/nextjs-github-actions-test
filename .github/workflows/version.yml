@@ -34,7 +34,7 @@ jobs:
         run: |
           git checkout -b release/$(npm version ${{ github.event.inputs.version }})
           echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
-          git add ./package.json
+          git add .
           git commit -m "new release"
       - name: Push the new branch
         run: |
