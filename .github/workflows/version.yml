@@ -29,11 +29,13 @@ jobs:
         run: |
           git config user.name "Mattia Magi"
           git config user.email "mattia.magi91@gmail.com"
-      - name: Create a commit with new version and push it
+      - name: Create a commit with new version
         id: create_commit
         run: |
           git checkout -b release/$(npm version ${{ github.event.inputs.version }})
           echo "version=v$(npm pkg get version)" >> $GITHUB_OUTPUT
           git add ./package.json
           git log --oneline
-          git push -u origin release/v$(npm pkg get version) | sed 's/"//g'
+      - name: Push the new branch
+        run: |
+          git push -u origin release/${{ steps.create_commit.outputs.version }}
