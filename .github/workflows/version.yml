@@ -34,17 +34,6 @@ jobs:
         run: |
           git checkout -b release/$(npm version ${{ github.event.inputs.version }})
           echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release/${{ steps.create_commit.outputs.version }}
-      - name: Create pull request
-        id: create_pr
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release/${{ steps.create_commit.outputs.version }}
-          title: "Release ${{ steps.create_commit.outputs.version }} Pull Request"
-          body: "This pull request contains the updated package.json with the new release version"
-          base: main
+      - name: Push the new branch
+        run: |
+          git push -u origin release/${{ steps.create_commit.outputs.version }}
