@@ -9,6 +9,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Merge release PRs
+        run: |
+          # Get the list of open pull requests
+          PR_LIST=$(gh pr list --state open --json number,title --jq '.[] | select(.title | startswith("release/")) | .number')
+
+          # Iterate through the pull requests and merge them
+          for PR_NUMBER in $PR_LIST; do
+            gh pr merge $PR_NUMBER --auto
+          done
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
