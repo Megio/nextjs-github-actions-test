@@ -21,6 +21,8 @@ jobs:
         run: |
           git config user.name "Mattia Magi"
           git config user.email "mattia.magi91@gmail.com"
+          git fetch
+          git pull
       - name: Get tag
         id: get_tag
         run: |
