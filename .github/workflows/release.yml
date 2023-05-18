@@ -7,8 +7,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
       - name: Merge release PRs
         run: |
           # Get the list of open pull requests
@@ -23,6 +21,8 @@ jobs:
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/merge
           done
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -38,7 +38,7 @@ jobs:
       - name: Get tag
         id: get_tag
         run: |
-          git fetch -p
+          git branch --show-current
           git pull
           echo "version=v$(npm pkg get version | tr -d '\"')" >> $GITHUB_OUTPUT
       - name: Tag the commit
