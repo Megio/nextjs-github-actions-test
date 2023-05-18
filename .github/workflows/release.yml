@@ -2,6 +2,11 @@ name: Release Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version name'
+        required: true
+        default: 'v1.0.0'
 
 jobs:
   release:
@@ -21,15 +26,43 @@ jobs:
         run: |
           git config user.name "Your Name"
           git config user.email "your@email.com"
-      - name: Determine the version
+      - name: Get previous tag
+        id: previous_tag
+        run: |
+          echo "::set-output name=tag::$(git describe --abbrev=0 --tags)"
+
+      - name: Determine next version
         id: determine_version
         run: |
-          echo "::set-output name=version::${{ github.event.inputs.version }}"
+          previous_tag=${{ steps.previous_tag.outputs.tag }}
+          major=$(echo $previous_tag | cut -d. -f1)
+          minor=$(echo $previous_tag | cut -d. -f2)
+          patch=$(echo $previous_tag | cut -d. -f3)
+          version=${{ github.event.inputs.version }}
+
+          if [ "$version" == "major" ]; then
+            major=$((major + 1))
+            minor=0
+            patch=0
+          elif [ "$version" == "minor" ]; then
+            minor=$((minor + 1))
+            patch=0
+          elif [ "$version" == "patch" ]; then
+            patch=$((patch + 1))
+          else
+            echo "Invalid version input"
+            exit 1
+          fi
+
+          next_version="$major.$minor.$patch"
+          echo "::set-output name=version::$next_version"
 
       - name: Tag the commit
         run: |
-          git tag -a "${{ steps.determine_version.outputs.version }}" -m "Version ${{ steps.determine_version.outputs.version }}"
+          next_version=${{ steps.determine_version.outputs.version }}
+          git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -37,7 +70,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.determine_version.outputs.version }}
-          release_name: Release ${{ steps.determine_version.outputs.version }}
+          release_name: ${{ github.event.inputs.version }}
           body: |
             Release ${{ steps.determine_version.outputs.version }}
 
