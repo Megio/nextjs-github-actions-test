@@ -29,22 +29,20 @@ jobs:
         run: |
           git config user.name "Mattia Magi"
           git config user.email "mattia.magi91@gmail.com"
-      - name: Get next version
-        id: next_version
+      - name: Create a commit with new version and push it
+        id: create_commit
         run: |
+          git checkout -b release/$(npm version ${{ github.event.inputs.version }})
           echo "version=$(npm version ${{ github.event.inputs.version }})" >> $GITHUB_OUTPUT
-      - name: Tag the commit
-        run: |
-          git checkout -b release/${{ steps.next_version.outputs.version }}
           git add ./package.json
           git log --oneline
-          git push -u origin release/${{ steps.next_version.outputs.version }}
+          git push -u origin release/$(npm version ${{ github.event.inputs.version }})
       - name: Create pull request
         id: create_pr
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release/${{ steps.next_version.outputs.version }}
-          title: "Release ${{ steps.next_version.outputs.version }} Pull Request"
+          branch: release/${{ steps.create_commit.outputs.version }}
+          title: "Release ${{ steps.create_commit.outputs.version }} Pull Request"
           body: "This pull request contains the updated package.json with the new release version"
           base: main
