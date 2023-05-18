@@ -31,10 +31,6 @@ jobs:
         run: |
           git config user.name "Mattia Magi"
           git config user.email "mattia.magi91@gmail.com"
-      - name: Determine the version
-        id: determine_version
-        run: |
-          echo "::set-output name=version::${{ github.event.inputs.version }}"
       - name: Get previous tag
         id: previous_tag
         run: |
