@@ -38,9 +38,7 @@ jobs:
       - name: Read CHANGELOG.md
         id: read_changelog
         run: |
-          echo "$(cat CHANGELOG.md)" > temp_changelog.txt
-          echo "changelog=$(cat temp_changelog.txt)" >> $GITHUB_OUTPUT
-        shell: bash
+            echo "changelog=$(cat CHANGELOG.md | tr -d '-')" >> $GITHUB_OUTPUT
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -55,5 +53,3 @@ jobs:
             ${{ steps.read_changelog.outputs.changelog }}
           draft: false
           prerelease: false
-      - name: Remove Temporary Changelog
-        run: rm temp_changelog.txt
