@@ -35,15 +35,6 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
-      - name: Get previous release tag
-        id: previous_release
-        run: |
-          echo "old_tag=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))" >> $GITHUB_OUTPUT
-      - name: Generate changelog diff
-        id: changelog_diff
-        run: |
-          PREVIOUS_RELEASE_TAG=${{ steps.previous_release.outputs.old_tag }}
-          echo "diff=$(git diff --unified=0 --no-color $PREVIOUS_RELEASE_TAG HEAD -- CHANGELOG.md | awk '{ printf "%s\n", $0 }')" >> $GITHUB_OUTPUT
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -55,6 +46,6 @@ jobs:
           body: |
             Release ${{ steps.get_tag.outputs.version }}
 
-            ${{ steps.changelog_diff.outputs.diff }}
+            $(cat CHANGELOG.md)
           draft: false
           prerelease: false
