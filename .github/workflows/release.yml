@@ -35,6 +35,10 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
+      - name: Read CHANGELOG.md
+        id: read_changelog
+        run: |
+            echo "changelog=$(cat CHANGELOG.md)"
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -46,6 +50,6 @@ jobs:
           body: |
             Release ${{ steps.get_tag.outputs.version }}
 
-            $(cat CHANGELOG.md)
+            ${{ steps.read_changelog.outputs.changelog }}
           draft: false
           prerelease: false
