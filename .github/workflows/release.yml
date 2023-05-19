@@ -43,7 +43,7 @@ jobs:
         id: changelog_diff
         run: |
           PREVIOUS_RELEASE_TAG=${{ steps.previous_release.outputs.old_tag }}
-          echo "diff=$(git diff --unified=0 --no-color $PREVIOUS_RELEASE_TAG HEAD -- CHANGELOG.md)"
+          echo "diff=$(git diff --unified=0 --no-color $PREVIOUS_RELEASE_TAG HEAD -- CHANGELOG.md)" >> $GITHUB_OUTPUT
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
