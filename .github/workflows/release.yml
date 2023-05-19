@@ -38,8 +38,7 @@ jobs:
       - name: Get previous release tag
         id: previous_release
         run: |
-          PREVIOUS_RELEASE_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
-          echo "old_tag=$PREVIOUS_RELEASE_TAG" >> $GITHUB_OUTPUT
+          echo "old_tag=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))" >> $GITHUB_OUTPUT
       - name: Generate changelog diff
         id: changelog_diff
         run: |
