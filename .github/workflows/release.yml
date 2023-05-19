@@ -35,18 +35,6 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
-      - name: Get PR body
-        id: get_pr_body
-        run: |
-          pr_number=$(echo "${{ github.event.pull_request.url }}" | awk -F'/' '{print $NF}')
-          body=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/${pr_number}" | jq -r '.body')
-          echo "pr_body=${body}" >> $GITHUB_OUTPUT
-      - name: Tag the commit
-        run: |
-          next_version=${{ steps.get_tag.outputs.version }}
-          git tag -a "$next_version" -m "Version $next_version"
-          git push --follow-tags
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -57,6 +45,6 @@ jobs:
           release_name: Release ${{ steps.get_tag.outputs.version }}
           body: |
             Release ${{ steps.get_tag.outputs.version }}
-            ${{ steps.get_pr_body.outputs.pr_body }}
+          body_path: ./CHANGELOG.md
           draft: false
           prerelease: false
