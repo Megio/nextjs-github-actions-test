@@ -43,8 +43,6 @@ jobs:
         with:
           tag_name: ${{ steps.get_tag.outputs.version }}
           release_name: Release ${{ steps.get_tag.outputs.version }}
-          body: |
-            Release ${{ steps.get_tag.outputs.version }}
-          body_path: ./CHANGELOG.md
+          body: $(git diff --color=always --no-prefix "$old_version" "$new_version" CHANGELOG.md | grep -E "^\e\[32m\+.*|\e\[31m\-.*" --color=never))
           draft: false
           prerelease: false
