@@ -35,10 +35,11 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
-      - name: Read CHANGELOG.md
-        id: read_changelog
-        run: |
-          echo "##[set-output name=changelog]$(cat CHANGELOG.md)"
+      - name: "Build Changelog"
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v3.7.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -50,6 +51,6 @@ jobs:
           body: |
             Release ${{ steps.get_tag.outputs.version }}
 
-            ${{ steps.read_changelog.outputs.changelog }}
+            ${{ steps.build_changelog.outputs.changelog }}
           draft: false
           prerelease: false
