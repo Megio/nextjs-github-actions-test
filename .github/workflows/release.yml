@@ -35,11 +35,11 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
-      - name: "Build Changelog"
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v3.7.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate Changelog Diff
+        id: generate_changelog_diff
+        run: |
+          previous_version=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
+          git log --pretty=format:"- %s [%h](https://github.com/$GITHUB_REPOSITORY/commit/%H)" $previous_version..HEAD > ${{ github.workspace }}/changelog-diff.md
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -51,6 +51,13 @@ jobs:
           body: |
             Release ${{ steps.get_tag.outputs.version }}
 
-            ${{ steps.build_changelog.outputs.changelog }}
+            [changelog-diff.md](./changelog-diff.md)
           draft: false
           prerelease: false
+      - name: Upload Changelog Diff
+        uses: actions/upload-artifact@v2
+        with:
+          name: changelog-diff
+          path: ${{ github.workspace }}/changelog-diff.md
+      - name: Delete Changelog Diff
+        run: rm ${{ github.workspace }}/changelog-diff.md
