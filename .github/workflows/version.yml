@@ -12,6 +12,10 @@ on:
           - major
           - minor
           - patch
+      release_notes:
+        description: 'Release notes'
+        required: true
+        type: string
 
 jobs:
   version:
@@ -40,6 +44,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: release/${{ steps.update_version.outputs.version }}
           title: "Release: ${{ steps.update_version.outputs.version }} Pull Request"
-          body: "This pull request contains the updated package.json with the new release version"
+          body: ${{ github.event.inputs.release_notes }}
           base: main
           
