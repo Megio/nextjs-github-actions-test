@@ -27,8 +27,8 @@ jobs:
         run: npm install
       - name: Set up Git
         run: |
-          git config user.name "Mattia Magi"
-          git config user.email "mattia.magi91@gmail.com"
+          git config user.name "This Dot Open Source"
+          git config user.email "opensource@thisdot.co"
       - name: Update the version
         id: update_version
         run: |

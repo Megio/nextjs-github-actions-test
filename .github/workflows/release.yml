@@ -22,8 +22,8 @@ jobs:
         run: npm run build
       - name: Set up Git
         run: |
-          git config user.name "Mattia Magi"
-          git config user.email "mattia.magi91@gmail.com"
+          git config user.name "This Dot Open Source"
+          git config user.email "opensource@thisdot.co"
       - name: Get tag
         id: get_tag
         run: |
@@ -35,6 +35,16 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
+      - name: Get previous release tag
+        id: previous_release
+        run: |
+          PREVIOUS_RELEASE_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
+          echo "old_tag=$PREVIOUS_RELEASE_TAG" >> $GITHUB_OUTPUT
+      - name: Generate changelog diff
+        id: changelog_diff
+        run: |
+          CHANGELOG_DIFF=$(git diff --unified=0 --no-color ${previous_release.outputs.old_tag} HEAD -- CHANGELOG.md)
+          echo "diff=$CHANGELOG_DIFF"
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -46,6 +56,6 @@ jobs:
           body: |
             Release ${{ steps.get_tag.outputs.version }}
 
-            Add release notes here.
+            ${{ steps.changelog_diff.outputs.diff }}
           draft: false
           prerelease: false
