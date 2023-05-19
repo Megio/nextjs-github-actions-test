@@ -38,7 +38,7 @@ jobs:
       - name: Read CHANGELOG.md
         id: read_changelog
         run: |
-            echo "changelog=$(cat CHANGELOG.md)"
+            echo "changelog=$(cat CHANGELOG.md)" >> $GITHUB_OUTPUT
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
