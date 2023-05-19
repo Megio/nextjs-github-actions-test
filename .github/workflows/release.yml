@@ -35,20 +35,14 @@ jobs:
           next_version=${{ steps.get_tag.outputs.version }}
           git tag -a "$next_version" -m "Version $next_version"
           git push --follow-tags
-      - name: Get Previous Changelog
-        id: get_previous_changelog
-        run: |
-          git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
-          echo "previous_changelog=$(git diff --name-only ${{ github.base_ref }} HEAD | grep CHANGELOG.md)" >> $GITHUB_OUTPUT
       - name: Generate Changelog Diff
-        id: generate_changelog_diff
+        id: changelog_diff
         run: |
-          if [ -n "${{ steps.get_previous_changelog.outputs.previous_changelog }}" ]; then
-            changelog_diff=$(git diff --no-color ${{ github.base_ref }} HEAD ${{ steps.get_previous_changelog.outputs.previous_changelog }})
-            echo "changelog_diff=$(git diff --no-color ${{ github.base_ref }} HEAD ${{ steps.get_previous_changelog.outputs.previous_changelog }})" >> $GITHUB_OUTPUT
-          else
-            echo "changelog_diff=" >> $GITHUB_OUTPUT
-          fi
+          # Retrieve the previous release's tag name
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
+
+          # Set the output variable to make it available for later steps
+          echo "changelog_diff=$(git diff --no-color --unified=0 "$PREVIOUS_TAG" HEAD -- CHANGELOG.md)" >> $GITHUB_OUTPUT
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -60,6 +54,6 @@ jobs:
           body: |
             Release ${{ steps.get_tag.outputs.version }}
 
-            ${{ steps.generate_changelog_diff.outputs.changelog_diff }}
+            ${{ steps.changelog_diff.outputs.changelog_diff }}
           draft: false
           prerelease: false
