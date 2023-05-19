@@ -25,3 +25,4 @@
 - asdasd
 - kdsajdasjdasjdas
 - rrrrrrr
+- aggiunta nuova nuova
