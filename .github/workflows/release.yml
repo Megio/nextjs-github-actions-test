@@ -42,7 +42,7 @@ jobs:
       - name: Generate changelog diff
         id: changelog_diff
         run: |
-          CHANGELOG_DIFF=$(git diff --unified=0 --no-color ${previous_release.outputs.old_tag} HEAD -- CHANGELOG.md)
+          CHANGELOG_DIFF=$(git diff --unified=0 --no-color ${steps.previous_release.outputs.old_tag} HEAD -- CHANGELOG.md)
           echo "diff=$CHANGELOG_DIFF"
       - name: Create release
         id: create_release
