@@ -1,17 +1,10 @@
 ### CHANGELOG
 
-## Version [v8.0.7]
+## [v0.1.0] - 2023-05-12
 - sarebbe
 - bellissimo
 
-## Version v8.0.6
+## [v8.0.7] - 2023-02-12
 - nuovo 
 - nuovissimo
-## Version v8.0.3
-- cane 
-- blu
-
-## Version v8.0.2
-- aia
-- aiaia
 
