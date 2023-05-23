@@ -1,10 +1,10 @@
 ### CHANGELOG
 
-## Version [Unreleased]
+## Version [Ureleased]
 - sarebbe
 - bellissimo
 
-## Version v8.0.4
+## Version v8.0.6
 - nuovo 
 - nuovissimo
 ## Version v8.0.3
