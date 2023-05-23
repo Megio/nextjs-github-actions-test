@@ -1,6 +1,6 @@
 ### CHANGELOG
 
-## Version [Unreleased]
+## Version [v8.0.6]
 - sarebbe
 - bellissimo
 
