@@ -1,6 +1,6 @@
 ### CHANGELOG
 
-## [Unreleased]
+## [v8.2.2]
 - ti
 - prego
 
