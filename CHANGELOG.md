@@ -1,6 +1,9 @@
 ### CHANGELOG
 
 ## Version v8.0.2
+- nuovo 
+- nuovissimo
+## Version v8.0.2
 - cane 
 - blu
 
