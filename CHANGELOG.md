@@ -1,6 +1,6 @@
 ### CHANGELOG
 
-## [v0.1.0] - 2023-05-12
+## [Unreleased] - 2023-05-12
 - sarebbe
 - bellissimo
 
