@@ -8,3 +8,7 @@
 - nuovo 
 - nuovissimo
 
+## [v8.1.0] - 2023-02-12
+- asdasd 
+- nuovasdasdissimo
+
