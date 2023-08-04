@@ -1,4 +1,4 @@
-name: Release Workflow
+name: Tag and Release Workflow
 
 on:
   pull_request:
