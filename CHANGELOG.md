@@ -1,18 +1,11 @@
 ### CHANGELOG
 
-## [v8.2.2]
-- ti
-- prego
+## [Unreleased]
+### Added
+- added this
 
-## [v8.2.1] - 2023-05-12
-- sarebbe
-- bellissimo
+### Fixed
+- fix that
 
-## [v8.2.0] - 2023-02-12
-- nuovo 
-- nuovissimo
-
-## [v8.1.0] - 2023-02-12
-- asdasd 
-- nuovasdasdissimo
-
+### Updated
+- updated something
